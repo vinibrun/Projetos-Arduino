@@ -1,0 +1,156 @@
+
+#define Rout  9
+#define Gout  10
+#define Bout  11
+#define Sin 7 // switch in
+
+int R = 0, G = 0, B = 0, atual = 0, i;
+boolean cont = 0, mudanca;
+String comando;
+
+//**************************** MATRIZ DE CORES (NOMES)*******************
+String Cores[26] = {
+  /* 01 */  "*azul#",
+  /* 02 */  "*azul claro#",
+  /* 03 */  "*azul escuro#",
+  /* 04 */  "*amarelo#",
+  /* 05 */  "*amarelo claro#",
+  /* 06 */  "*amarelo escuro#",
+  /* 07 */  "*branco#",
+  /* 08 */  "*cinza#",
+  /* 09 */  "*laranja#",
+  /* 10 */  "*laranja claro#",
+  /* 11 */  "*laranja escuro#",
+  /* 12 */  "*roxo#",
+  /* 13 */  "*verde#",
+  /* 14 */  "*verde claro#",
+  /* 15 */  "*verde escuro#",
+  /* 16 */  "*vermelho#",
+  /* 17 */  "*vermelho claro#",
+  /* 18 */  "*vermelho escuro#",
+  /* 19 */  "*violetta#",
+  /* 20 */  "*ciano#",
+  /* 21 */  "*rosa#",
+  /* 22 */  "*rosa claro#",
+  /* 23 */  "*rosa escuro#",
+  /* 24 */  "*prata#",
+  /* 25 */  "*dourado#",
+  //EASTER EGGS
+  /* 26 */  "*a meca é rei#",
+  /* 27 */  "*penta#",
+  /* 27 */  "*é campeão#",
+  /* 28 */  "*química eu te amo#",
+  /* 29 */  "*deixa passar ta chegando trio eletro e o show vai começar#",
+  /* 30 */  "*abaixem a voz#",
+  /* 31 */  "*laia laia laia laia laia laia laia trio trio#",
+  /* 32 */  "*deixa passar ta chegando trio eletro e o show vai comecar#",
+  /* 33 */  "*tnt#",
+  /* 34 */  "*máfia da graxa#",
+  /* 35 */  "*trio eletro#",  
+  /* 36 */  "*atropelando#",  
+  /* 37 */  "*heim gato#",  
+  /* 38 */  "*arduino maior que pic#",  
+  /* 39 */  "*brun lindo#",  
+  /* 40 */  "*kopper viado#",  
+  /* 41 */  "*tro#",  
+  /* 42 */  "*inverno verde#",  
+  /* 43 */  "*a noite tainha vinho e muito sexo#",  
+  /* 44 */  "*vai safadão#",  
+  /* 45 */  "*isso não é um ovo de páscoa#",  
+  /* 46 */  "*opa é seis#",
+  /* 47 */  "*desligar#"
+};
+//**************************** MATRIZ DE CORES (RGB)*******************
+int cores[28][3]  = {
+  /* 01 */  000,000,200,
+  /* 02 */  000,000,255,
+  /* 03 */  000,000,139,
+  /* 04 */  255,255,000,
+  /* 05 */  255,255,200,
+  /* 06 */  218,165,32,
+  /* 07 */  255,255,255,
+  /* 08 */  128,128,128,
+  /* 09 */  255,165,000,
+  /* 10 */  255,180,50,
+  /* 11 */  255,185,15,
+  /* 12 */  128,000,128,
+  /* 13 */  000,200,000,
+  /* 14 */  000,255,000,
+  /* 15 */  000,128,000,
+  /* 16 */  255,000,000,
+  /* 17 */  255,100,70,
+  /* 18 */  139,000,000,
+  /* 19 */  128,43,226,
+  /* 20 */  000,255,255,
+  /* 21 */  255,20,147,
+  /* 22 */  255,105,180,
+  /* 23 */  200,20,133,
+  /* 24 */  192,192,192,
+  /* 25 */  255,215,000,
+  //EASTER EGGS
+  /* 26 */  255,165,10
+  /* 27 */  50,205,50,
+  /* 27 */  000,250,154,
+  /* 28 */  220,20,60,
+  /* 29 */  30,144,255,
+  /* 30 */  000,100,000,
+  /* 31 */  100,149,237,
+  /* 32 */  50,50,200,
+  /* 33 */  255,000,000,
+  /* 34 */  255,180,000,
+  /* 35 */  135,206,235,  
+  /* 36 */  34,140,34,  
+  /* 37 */  255,000,255,  
+  /* 38 */  150,150,150,
+  /* 39 */  255,255,255,  
+  /* 40 */  220,000,220,,  
+  /* 41 */  000,255,000,  
+  /* 42 */  10,200,10,  
+  /* 43 */  205,92,92,  
+  /* 44 */  220,220,255,  
+  /* 45 */  172,255,47,  
+  /* 46 */  124,252,000,
+  /* 47 */  000,000,000
+  
+};
+//*************************************
+
+void printaLed(int Red, int Green, int Blue) {
+  analogWrite(Rout, Red);
+  analogWrite(Gout, Green);
+  analogWrite(Bout, Blue);
+}
+
+void setup() {
+  pinMode(Rout, OUTPUT);
+  pinMode(Gout, OUTPUT);
+  pinMode(Bout, OUTPUT);
+  pinMode(Sin, INPUT);
+  Serial.begin(9600);
+}
+
+void loop() {
+  do {
+    comando = Serial.readString();
+  } while (comando == "");
+  comando.toLowerCase();
+  Serial.println(comando);
+  i = 0;
+  while (i < 48 && comando != Cores[i])
+    i++;
+    
+  R = cores[i][0];
+  G = cores[i][1];
+  B = cores[i][2];
+  delay(150);
+  printaLed(R, G, B);
+  /*
+    Serial.print("R: ");
+    Serial.print(R);
+    Serial.print(" G: ");
+    Serial.print(G);
+    Serial.print(" B: ");
+    Serial.println(B);
+  */
+}
+
